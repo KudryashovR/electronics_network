@@ -15,5 +15,5 @@ class NetworkNodeAdmin(admin.ModelAdmin):
     actions = ['clear_debt']
 
     @admin.action(description='Очистить задолжность')
-    def crear_debt(self, request, queryset):
+    def clear_debt(self, request, queryset):
         queryset.update(debt=0.00)
