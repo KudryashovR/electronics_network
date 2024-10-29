@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from network.models import NetworkNode
+from network.models import NetworkNode, Product
 
 
 @admin.register(NetworkNode)
@@ -17,3 +17,8 @@ class NetworkNodeAdmin(admin.ModelAdmin):
     @admin.action(description='Очистить задолжность')
     def clear_debt(self, request, queryset):
         queryset.update(debt=0.00)
+
+
+@admin.register(Product)
+class ProductAdmin(admin.ModelAdmin):
+    list_display = ['name', 'model', 'release_date', 'supplier']
