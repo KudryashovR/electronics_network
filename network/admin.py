@@ -1,16 +1,27 @@
 from django.contrib import admin
+from django.urls import reverse
+from django.utils.html import format_html
 
 from network.models import NetworkNode, Product
 
 
 @admin.register(NetworkNode)
 class NetworkNodeAdmin(admin.ModelAdmin):
-    list_display = ['name', 'level', 'get_full_address', 'debt', 'created_at']
+    list_display = ['name', 'level', 'get_supplier_link', 'get_full_address', 'debt', 'created_at']
     search_fields = ['name', 'city']
     list_filter = ['city']
 
     get_full_address = lambda self, obj: obj.get_full_address()
     get_full_address.short_description = 'Полный адрес'
+
+    def get_supplier_link(self, obj):
+        if obj.supplier:
+            link = reverse("admin:network_networknode_change", args=[obj.supplier.pk])
+            return format_html('<a href="{}">{}</a>', link, obj.supplier.name)
+        else:
+            return '-'
+
+    get_supplier_link.short_description = 'Поставщик'
 
     actions = ['clear_debt']
 
