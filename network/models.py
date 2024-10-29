@@ -26,6 +26,9 @@ class NetworkNode(models.Model):
     def __str__(self):
         return self.name
 
+    def get_full_address(self):
+        return f"{self.country}, {self.city}, {self.street}, {self.house_number}"
+
     class Meta:
         verbose_name = 'Звено сети'
         verbose_name_plural = 'Звенья сети'
