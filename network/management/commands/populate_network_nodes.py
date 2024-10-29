@@ -29,7 +29,7 @@ class Command(BaseCommand):
             nodes.append(node)
 
         for _ in range(60):
-            supplier = random.choice(nodes)
+            supplier = random.choice([node for node in nodes if node.level != 0])
             node = NetworkNode(name=fake.company(), level=2, supplier=supplier, email=fake.company_email(),
                                country=fake.country(), city=fake.city(), street=fake.street_name(),
                                house_number=fake.building_number(), debt=round(random.uniform(0, 1000), 2))
