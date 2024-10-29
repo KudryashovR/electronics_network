@@ -7,16 +7,13 @@ from network.models import NetworkNode, Product
 
 @admin.register(NetworkNode)
 class NetworkNodeAdmin(admin.ModelAdmin):
-
     """
     Класс администратора для модели NetworkNode.
 
-    В этом классе настраиваются отображение полей в списке, поисковые поля, фильтры списка, а также дополнительные
-    методы и действия администраторов.
+    Этот класс определяет настройки отображения и управления узлами сети в административной панели Django.
     """
 
     list_display = ['name', 'level', 'get_supplier_link', 'get_full_address', 'debt', 'created_at']
-
     search_fields = ['name', 'city']
     list_filter = ['city']
 
@@ -24,8 +21,16 @@ class NetworkNodeAdmin(admin.ModelAdmin):
     get_full_address.short_description = 'Полный адрес'
 
     def get_supplier_link(self, obj):
+        """
+        Получение ссылки на поставщика узла.
+
+        :param obj: Объект узла сети.
+        :return: HTML-ссылка на страницу редактирования поставщика, если он существует, иначе '-' (дефис).
+        """
+
         if obj.supplier:
             link = reverse("admin:network_networknode_change", args=[obj.supplier.pk])
+
             return format_html('<a href="{}">{}</a>', link, obj.supplier.name)
         else:
             return '-'
