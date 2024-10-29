@@ -1,3 +1,4 @@
+from django.core.exceptions import ValidationError
 from django.db import models
 
 
@@ -28,6 +29,12 @@ class NetworkNode(models.Model):
 
     def get_full_address(self):
         return f"{self.country}, {self.city}, {self.street}, {self.house_number}"
+
+    def clean(self):
+        super().clean()
+
+        if self.level == 2 and self.supplier.level == 0:
+            raise ValidationError({"level": "Завод не может иметь поставщика уровня 2."})
 
     class Meta:
         verbose_name = 'Звено сети'
