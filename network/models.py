@@ -34,7 +34,7 @@ class NetworkNode(models.Model):
 class Product(models.Model):
     name = models.CharField(max_length=255, verbose_name='Название')
     model = models.CharField(max_length=100, verbose_name='Модель')
-    release_data = models.DateField(verbose_name='Дата выпуска')
+    release_date = models.DateField(verbose_name='Дата выпуска')
 
     supplier = models.ForeignKey(NetworkNode, on_delete=models.CASCADE, related_name='products',
                                  verbose_name='Поставщик')
