@@ -27,6 +27,9 @@ class NetworkNode(models.Model):
     def __str__(self):
         return self.name
 
+    def get_full_address(self):
+        return f"{self.country}, {self.city}, {self.street}, {self.house_number}"
+
     def clean(self):
         super().clean()
 
