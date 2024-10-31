@@ -11,6 +11,15 @@ class NetworkNodeSerializer(serializers.ModelSerializer):
     поле 'debt' из результата.
     """
 
+    def validate(self, data):
+        level = data.get('level')
+        supplier = data.get('supplier')
+
+        if level == 2 and supplier.level == 0:
+            raise serializers.ValidationError({'level': 'Завод не может иметь поставщика уровня 2.'})
+
+        return data
+
     class Meta:
         """
         Метакласс, определяющий параметры сериализатора.
