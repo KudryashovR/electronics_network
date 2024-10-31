@@ -58,10 +58,19 @@ class NetworkNode(models.Model):
         :raise ValidationError: Исключение, если данные некорректны.
         """
 
-        super().clean()
-
         if self.level == 2 and self.supplier.level == 0:
             raise ValidationError({"level": "Завод не может иметь поставщика уровня 2."})
+
+        super().clean()
+
+    def save(self, *args, **kwargs):
+        try:
+            self.full_clean()
+        except ValidationError as e:
+            print(f'Ошибка валидации: {e.message_dict}')
+            return
+
+        super().save(*args, **kwargs)
 
     class Meta:
         verbose_name = 'Звено сети'
