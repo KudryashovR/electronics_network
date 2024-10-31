@@ -8,8 +8,18 @@ from network.models import NetworkNode, Product
 
 
 class CommandTestCase(TestCase):
+    """
+    Тестовый кейс для команд управления.
+    """
 
     def test_command_creates_network_nodes(self):
+        """
+        Тестирует команду populate_network_nodes.
+
+        Проверяет создание узлов сети, количество созданных объектов каждого уровня, наличие поставщиков
+        и обязательных полей.
+        """
+
         self.assertEqual(NetworkNode.objects.count(), 0)
 
         call_command('populate_network_nodes')
@@ -41,6 +51,12 @@ class CommandTestCase(TestCase):
             self.assertIsNotNone(node.house_number)
 
     def test_product_creation(self):
+        """
+        Тестирует команду populate_products.
+
+        Проверяет создание продуктов, обязательные поля продукта и диапазон дат выпуска.
+        """
+
         self.assertEqual(NetworkNode.objects.count(), 0)
 
         self.assertEqual(Product.objects.count(), 0)
@@ -65,6 +81,12 @@ class CommandTestCase(TestCase):
 
     @patch('network.models.NetworkNode.objects.all')
     def test_no_network_nodes_message_and_return(self, mock_objects_all):
+        """
+        Тестирует поведение команды populate_products при отсутствии узлов сети.
+
+        Проверяет вывод сообщения об ошибке и отсутствие создания продуктов.
+        """
+
         mock_objects_all.return_value = []
 
         with self.assertLogs(level='ERROR') as logs:

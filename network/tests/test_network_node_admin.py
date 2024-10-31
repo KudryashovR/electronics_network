@@ -6,8 +6,20 @@ from network.models import NetworkNode
 
 
 class NetworkNodeAdminTests(TestCase):
+    """
+    Класс для тестирования администратора модели NetworkNode.
+
+    Этот класс включает методы для тестирования функционала очистки задолженности.
+    """
 
     def setUp(self):
+        """
+        Настройка тестовой среды.
+
+        Создаются два экземпляра модели NetworkNode с различными значениями долга. Также создается запрос
+        и инстанцируется администратор модели.
+        """
+
         self.instance1 = NetworkNode.objects.create(
             name='Node1',
             level=1,
@@ -32,6 +44,12 @@ class NetworkNodeAdminTests(TestCase):
         self.admin_instance = NetworkNodeAdmin(NetworkNode, site)
 
     def test_clear_debt(self):
+        """
+        Тестирование функции clear_debt администратора.
+
+        Проверяет, что после вызова функции clear_debt долг выбранных экземпляров модели становится равным нулю.
+        """
+
         queryset = NetworkNode.objects.filter(pk__in=[self.instance1.pk, self.instance2.pk])
         self.admin_instance.clear_debt(self.request, queryset)
 
