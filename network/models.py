@@ -1,3 +1,5 @@
+import logging
+
 from django.core.exceptions import ValidationError
 from django.db import models
 
@@ -58,10 +60,28 @@ class NetworkNode(models.Model):
         :raise ValidationError: Исключение, если данные некорректны.
         """
 
+        if self.level == 2 and self.supplier and self.supplier.level == 0:
+            raise ValidationError({"level": "Завод не может иметь поставщика уровня 2."})
         super().clean()
 
-        if self.level == 2 and self.supplier.level == 0:
-            raise ValidationError({"level": "Завод не может иметь поставщика уровня 2."})
+    def save(self, *args, **kwargs):
+        """
+        Перегруженный метод сохранения модели.
+
+        Перед сохранением проверяется валидность данных методом full_clean().
+        Если возникают ошибки валидации, они логируются, и сохранение отменяется.
+
+        :param args: Позиционные аргументы.
+        :param kwargs: Именованные аргументы.
+        """
+
+        try:
+            self.full_clean()
+        except ValidationError as e: # pragma: no cover
+            logger.error(f'Ошибка валидации: {e.message_dict}') # pragma: no cover
+            return # pragma: no cover
+
+        super().save(*args, **kwargs)
 
     class Meta:
         verbose_name = 'Звено сети'
