@@ -4,6 +4,9 @@ from django.core.exceptions import ValidationError
 from django.db import models
 
 
+logger = logging.getLogger(__name__)
+
+
 class NetworkNode(models.Model):
     """
     Модель "Звено сети", представляющая одно из звеньев иерархической сети.
