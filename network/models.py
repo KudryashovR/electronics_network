@@ -58,9 +58,8 @@ class NetworkNode(models.Model):
         :raise ValidationError: Исключение, если данные некорректны.
         """
 
-        if self.level == 2 and self.supplier.level == 0:
+        if self.level == 2 and self.supplier and self.supplier.level == 0:
             raise ValidationError({"level": "Завод не может иметь поставщика уровня 2."})
-
         super().clean()
 
     def save(self, *args, **kwargs):
