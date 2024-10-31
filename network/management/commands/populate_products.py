@@ -1,9 +1,13 @@
+import logging
 import random
 
 from django.core.management import BaseCommand
 from faker import Faker
 
 from network.models import NetworkNode, Product
+
+
+logger = logging.getLogger(__name__)
 
 
 class Command(BaseCommand):
@@ -14,7 +18,7 @@ class Command(BaseCommand):
         nodes = list(NetworkNode.objects.all())
 
         if not nodes:
-            print("Звенья сети недоступны. Пожалуйста, сначала заполните их.")
+            logger.error("Звенья сети недоступны. Пожалуйста, сначала заполните их.")
             return
 
         for _ in range(100):

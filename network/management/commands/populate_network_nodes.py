@@ -22,16 +22,18 @@ class Command(BaseCommand):
 
         for _ in range(30):
             supplier = random.choice([node for node in nodes if node.level == 0])
+            debt = "{:.2f}".format(random.uniform(0, 1000))
             node = NetworkNode(name=fake.company(), level=1, supplier=supplier, email=fake.company_email(),
                                country=fake.country(), city=fake.city(), street=fake.street_name(),
-                               house_number=fake.building_number(), debt=round(random.uniform(0, 1000), 2))
+                               house_number=fake.building_number(), debt=debt)
             node.save()
             nodes.append(node)
 
         for _ in range(60):
             supplier = random.choice([node for node in nodes if node.level != 0])
+            debt = "{:.2f}".format(random.uniform(0, 1000))
             node = NetworkNode(name=fake.company(), level=2, supplier=supplier, email=fake.company_email(),
                                country=fake.country(), city=fake.city(), street=fake.street_name(),
-                               house_number=fake.building_number(), debt=round(random.uniform(0, 1000), 2))
+                               house_number=fake.building_number(), debt=debt)
             node.save()
             nodes.append(node)
