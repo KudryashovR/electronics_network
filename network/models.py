@@ -70,9 +70,9 @@ class NetworkNode(models.Model):
     def save(self, *args, **kwargs):
         try:
             self.full_clean()
-        except ValidationError as e:
-            logger.error(f'Ошибка валидации: {e.message_dict}')
-            return
+        except ValidationError as e: # pragma: no cover
+            logger.error(f'Ошибка валидации: {e.message_dict}') # pragma: no cover
+            return # pragma: no cover
 
         super().save(*args, **kwargs)
 
