@@ -6,7 +6,19 @@ from network.serializers import NetworkNodeSerializer
 
 
 class NetworkNodeSerializerTests(TestCase):
+    """
+    Класс для тестирования сериализатора NetworkNodeSerializer.
+
+    Этот класс включает методы для тестирования различных сценариев валидации данных.
+    """
+
     def setUp(self):
+        """
+        Настройка тестовых данных.
+
+        Создаются два экземпляра модели NetworkNode с разными уровнями.
+        """
+
         self.supplier_level_0 = NetworkNode.objects.create(
             name='test_0',
             level=0,
@@ -27,6 +39,12 @@ class NetworkNodeSerializerTests(TestCase):
         )
 
     def test_validate_level_with_supplier_level_0(self):
+        """
+        Тестирование валидации уровня при наличии поставщика уровня 0.
+
+        Проверяет, что при уровне 2 и поставщике уровня 0 возникает ошибка валидации.
+        """
+
         data = {
             'name': 'test_1',
             'level': 2,
@@ -49,6 +67,12 @@ class NetworkNodeSerializerTests(TestCase):
         )
 
     def test_validate_level_with_supplier_level_1(self):
+        """
+        Тестирование валидации уровня при наличии поставщика уровня 1.
+
+        Проверяет, что при уровне 2 и поставщике уровня 1 валидация проходит успешно.
+        """
+
         data = {
             'name': 'test_1',
             'level': 2,
@@ -67,6 +91,12 @@ class NetworkNodeSerializerTests(TestCase):
             self.fail('ValidationError было вызвано при допустимых данных!')
 
     def test_validate_level_with_not_level_2(self):
+        """
+        Тестирование валидации уровня при уровне, отличном от 2.
+
+        Проверяет, что при уровне 1 и поставщике уровня 0 валидация проходит успешно.
+        """
+
         data = {
             'name': 'test_1',
             'level': 1,
