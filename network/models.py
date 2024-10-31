@@ -68,6 +68,16 @@ class NetworkNode(models.Model):
         super().clean()
 
     def save(self, *args, **kwargs):
+        """
+        Перегруженный метод сохранения модели.
+
+        Перед сохранением проверяется валидность данных методом full_clean().
+        Если возникают ошибки валидации, они логируются, и сохранение отменяется.
+
+        :param args: Позиционные аргументы.
+        :param kwargs: Именованные аргументы.
+        """
+
         try:
             self.full_clean()
         except ValidationError as e: # pragma: no cover
