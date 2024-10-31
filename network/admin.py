@@ -5,6 +5,10 @@ from django.utils.html import format_html
 from network.models import NetworkNode, Product
 
 
+def get_full_address(obj):
+    return obj.get_full_address()
+
+
 @admin.register(NetworkNode)
 class NetworkNodeAdmin(admin.ModelAdmin):
     """
@@ -17,7 +21,15 @@ class NetworkNodeAdmin(admin.ModelAdmin):
     search_fields = ['name', 'city']
     list_filter = ['city']
 
-    get_full_address = lambda self, obj: obj.get_full_address()
+    def get_full_address(self, obj):
+        """
+        Получение полного адреса узла сети.
+
+        :param obj: Объект узла сети.
+        :return: Полный адрес узла сети.
+        """
+        return obj.get_full_address()
+
     get_full_address.short_description = 'Полный адрес'
 
     def get_supplier_link(self, obj):

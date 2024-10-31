@@ -3,7 +3,6 @@ import logging
 from django.core.exceptions import ValidationError
 from django.db import models
 
-
 logger = logging.getLogger(__name__)
 
 
@@ -80,9 +79,9 @@ class NetworkNode(models.Model):
 
         try:
             self.full_clean()
-        except ValidationError as e: # pragma: no cover
-            logger.error(f'Ошибка валидации: {e.message_dict}') # pragma: no cover
-            return # pragma: no cover
+        except ValidationError as e:  # pragma: no cover
+            logger.error(f'Ошибка валидации: {e.message_dict}')  # pragma: no cover
+            return  # pragma: no cover
 
         super().save(*args, **kwargs)
 
